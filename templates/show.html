@@ -1,0 +1,111 @@
+{% extends "index.html" %}
+
+{% block page_title %}
+    <title>{{ show.title }}</title>
+{% endblock %}
+
+{% block title %}
+    {{ show.title }}
+{% endblock %}
+
+
+{% block content %}
+
+
+    <div class="card detailed-view">
+        <script type="text/javascript">
+            {% if show.trailer %}
+                var videoId = '{{ show.trailer.split("=")[1] }}' ;
+            {% else %}
+                var videoId = "";
+            {% endif %}
+        </script>
+        <script type="text/javascript" src="{{ url_for('static', filename='js/embed-youtube.js') }}"></script>
+        <script type="text/javascript">
+            var currentShowId =  {{ show.id | string }}
+        </script>
+        <script type="module" src="{{ url_for('static', filename='js/show.js') }}" defer></script>
+            <p>And here is a "detailed" kind of view:</p>
+            <div class="row">
+{#                <img src="http://www.impawards.com/2016/posters/deadpool_ver5.jpg" alt="{{ show.title }} poster"#}
+{#                     class="poster col col-third">#}
+                <div class="col col-twothird">
+                    <h2>{{ show.title }}</h2>
+                    <p class="small grayed">
+                        {% if show.runtime >= 60 %}
+                            {{ show.runtime // 60  }}h {{ show.runtime % 60 }}min
+                        {%  else %}
+                            {{ show.runtime }}min
+                        {% endif %}
+                        <span class="separator">|</span>{{ show.genres}}<span
+                          class="separator">|</span> {{ show.year.strftime('%d %B %Y') }} </p>
+                    <p>{{ show.overview }}</p>
+                    <p>{{ show.rating }}<i class="far fa-star"></i></p>
+                </div>
+
+                {% if show.trailer %}
+
+                 <div id="player" class="trailer col col-third"></div>
+
+                 {% endif %}
+
+            </div>
+            <div>
+{#                    <p><b>Director</b><b id="director"></b></p>#}
+{#                <p><b>Director:</b>&nbsp;<a href="#">??</a></p>#}
+{#                <p><b>Writers:</b>&nbsp;<a href="#">??</a>, <a href="#">??</a></p>#}
+                <p><b>Stars:</b>&nbsp;
+                    {% for star in actors %}
+                    <div id="actors">{{ star.name }},
+                        <button class="actor-details" value="{{ star.actor_id}}">Details</button>
+                    </div>
+
+                    {% endfor %}
+                </p>
+
+            </div>
+
+
+    {% endblock %}
+
+    {% block seasons %}
+
+    <h1 class="title text-center">Seasons</h1>
+
+    <section>
+        <div class="card">
+            <table>
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>Title</th>
+                        <th>Overview</th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for season in seasons %}
+                    <tr>
+                        <td><a href="{{ url_for('episodes', season_id=season.id)  }}">{{ season.season_number }}</a></td>
+                        <td>{{ season.title }}</td>
+                        {% if season.overview != None %}
+                        <td>{{ season.overview }}</td>
+                        {% else %}
+                            <td></td>
+                        {% endif %}
+
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+
+        </div>
+    </section>
+
+{# -- DIV FOR ACTOR Details POPUP -- #}
+<div id="popup-actor" class=" card popup"></div>
+
+        <div class=" card popup" id="popup-genres"></div>
+
+{% endblock %}

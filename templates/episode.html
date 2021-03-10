@@ -1,0 +1,87 @@
+{% extends "index.html" %}
+
+{% block page_title %}
+    <title>Episode</title>
+{% endblock %}
+
+{% block title %}
+    {{ episodes[0].show_title }} - {{ episodes[0].season_title }}
+{% endblock %}
+
+
+{% block content %}
+    <script type="module" src="{{ url_for('static', filename='js/episode.js') }}"></script>
+    <div class="card">
+
+        <nav class="breadcrumb">
+            <a href="#">{{ episodes[0].show_title }}</a>
+            <span class="separator">&gt;</span>
+            <a href="#">{{ episodes[0].season_title }}</a>
+            <span class="separator">&gt;</span>
+{#            <a href="#">Episode 8</a>#}
+        </nav>
+        <table>
+            <tr>
+                <th>Episode number</th>
+                <th>Title</th>
+                <th>Overview</th>
+                <th>Edit</th>
+            </tr>
+            <tbody>
+                {% for episode in episodes %}
+                <tr>
+
+                    <td>{{ episode.episode_number }}</td>
+                    <td>{{ episode.title }}</td>
+                    <td>{{ episode.overview }}</td>
+                    <td><i class="fa fa-edit fa-fw"></i></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+
+        </table>
+
+
+    </div>
+
+    <div class="card">
+            <p>A form example to edit a TV show's episode:</p>
+            <form action="#" method="post">
+                <p class="form-element">
+                    <label class="form-element-label" for="form-example-show">Show:</label>
+                    <select name="show" id="form-example-show">
+{#                        <option value="">Game of Thrones (2011)</option>#}
+{#                        <option value="">Lost (2004)</option>#}
+{#                        <option value="">South Park (1997)</option>#}
+{#                        <option value="">How I met your mother (2005)</option>#}
+{#                        <option value="">Legion (2017)</option>#}
+                    </select>
+                </p>
+                <p class="form-element">
+                    <label class="form-element-label" for="form-example-season">Season:</label>
+                    <select name="season" id="form-example-season"></select>
+{#                    <input type="number" name="season" id="form-example-season" value="" min="1" max="30">#}
+
+                </p>
+                <p class="form-element">
+                    <label class="form-element-label" for="form-example-episode">Episode:</label>
+                    <select name="episode" id="form-example-episode"></select>
+{#                    <input type="number" name="episode" id="form-example-episode" value="" min="1" max="100">#}
+                </p>
+                <p class="form-element">
+                    <label class="form-element-label" for="form-example-title">Title:</label>
+                    <input type="text" name="name" id="form-example-title" value="" placeholder="What the pencake?">
+                </p>
+                <p class="form-element">
+                    <label class="form-element-label" for="form-example-length">Length:</label>
+                    <input type="number" name="length" id="form-example-length" value="" min="1" max="999">
+                    <span>min.</span>
+                </p>
+                <p class="text-center">
+{#                    <button id="download-details" type="button">Download Details</button>#}
+                    <button type="submit">Submit</button>
+                </p>
+            </form>
+        </div>
+
+{% endblock %}

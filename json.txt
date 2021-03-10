@@ -1,0 +1,76 @@
+from flask import jsonify
+
+return jsonify(dict, RealDict)
+
+
+python:
+import json
+
+from python to json:
+json.dumps()
+
+convert from json to python:
+json.loads(data)
+
+
+js:
+response - > json data
+data = response.json()
+data -> dict
+
+data_to_send = JSON.stringify(data)
+data_to_send - > json data
+
+
+
+
+
+api_get: function (url, callback){
+
+        fetch(url)
+            .then((response) =>response.json() )
+            .then((data) => callback(data))
+            .catch(rejected => {
+                callback(null)
+            })
+    },
+
+    api_post: function (url, data, callback){
+        fetch(url, {
+            method: "POST",
+            credentials: "same-origin",
+            headers: {"Content-Type" : "application/json"},
+            body: JSON.stringify(data)
+        })
+            .then(response => response.json())
+            .then(json_response => callback(json_response))
+            .catch(rejected => {
+                console.log(rejected)
+                callback(null)
+            });
+    }
+
+
+
+<div id="modal">
+    <div class="close-line"><i class="close" >&#x292B;</i></div>
+    <div class="dot-flashing"></div>
+    <div id="residents"></div>
+    <div class="close-line"><button class="close">CLOSE</button></div>
+</div>
+
+
+wyciągnąć tekst z <option> z <select>:
+ let episodeTitle = evt.target.options[evt.target.selectedIndex].text;
+
+
+     hours, minutes = divmod(show['runtime'], 60)
+    runtime_str = (str(hours)+'h ' if hours else '') + (str(minutes)+'min' if minutes else '')
+    show['runtime_str'] = runtime_str
+
+
+d = document.getElementById("d1");
+d.setAttribute("align", "center");
+var x = document.getElementById("myBtn").getAttribute("onclick");
+
+<form name="login" action="{{ url_for('login_user_post') }}" method="post">

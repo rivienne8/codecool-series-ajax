@@ -1,0 +1,102 @@
+{% extends "index.html" %}
+
+{% block page_title %}
+    <title>Shows</title>
+{% endblock %}
+
+{% block title %}
+    Shows
+{% endblock %}
+
+
+{% block content %}
+
+<div class="card">
+    <table>
+        <tr>
+
+            <th>
+                <a href="{{ url_for('get_most_rated', sort_by='title',
+                    direction = new_direction if sort_by == 'title' else 'ASC') }}">Title</a>
+                {% if sort_by == 'title' and direction == 'DESC' %}
+                    <i class="far fa-caret-square-down"></i>
+                {% elif sort_by == 'title' and direction == 'ASC' %}
+                    <i class="far fa-caret-square-up"></i>
+                {% endif %}
+            </th>
+            <th>
+                <a href="{{ url_for('get_most_rated', sort_by='year',
+                    direction = new_direction if sort_by == 'year' else 'ASC') }}">Year</a>
+                {% if sort_by == 'year' and direction == 'DESC' %}
+                    <i class="far fa-caret-square-down"></i>
+                {% elif sort_by == 'year' and direction == 'ASC' %}
+                    <i class="far fa-caret-square-up"></i>
+                {% endif %}
+            </th>
+            <th>
+                <a href="{{ url_for('get_most_rated', sort_by='runtime',
+                    direction = new_direction if sort_by == 'runtime' else 'ASC') }}">Runtime</a>
+                {% if sort_by == 'runtime' and direction == 'DESC' %}
+                    <i class="far fa-caret-square-down"></i>
+                {% elif sort_by == 'runtime' and direction == 'ASC' %}
+                    <i class="far fa-caret-square-up"></i>
+                {% endif %}
+            </th>
+            <th>
+                <a href="{{ url_for('get_most_rated', sort_by='rating',
+                    direction = new_direction if sort_by == 'rating' else 'ASC') }}">Rating</a>
+                {% if sort_by == 'rating' and direction == 'DESC' %}
+                    <i class="far fa-caret-square-down"></i>
+                {% elif sort_by == 'rating' and direction == 'ASC' %}
+                    <i class="far fa-caret-square-up"></i>
+                {% endif %}
+            </th>
+{#            <a><th>Year</th></a>#}
+{#            <a><th>Runtime</th></a>#}
+{#            <a><th>Rating</th></a>#}
+            <th>Genres</th>
+            <th>Trailer</th>
+            <th>Homepage</th>
+        </tr>
+        {% for show in most_rated %}
+        <tr>
+
+            <td><a href="{{ url_for('show_show', id = show.id) }}" >{{ show.title }}</a></td>
+            <td>{{ show.year }}</td>
+            <td>
+                {% if show.runtime >= 60 %}
+                    {{ show.runtime // 60  }}h {{ show.runtime % 60 }}min
+                {%  else %}
+                    {{ show.runtime }}min
+                {% endif %}
+            </td>
+            <td>"{{ show.rating | round(1, 'floor') }}"</td>
+            <td>{{ show.genres }}</td>
+            <td><a href="{{ show.trailer }}">{{ show.trailer }}</a></td>
+            <td><a href="{{ show.homepage }}">{{ show.homepage }}</a></td>
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+
+{% endblock %}
+
+{% block pagination %}
+
+<div class="card">
+
+<div class="pagination">
+
+        <a href="{{ url_for('get_most_rated',  next_page= current_page -1 if current_page > 1 else 1, sort_by = sort_by, direction = direction) }}"><i class="fas fa-angle-double-left"></i></a>
+
+        {% for i in range( current_page - 5 if current_page > 5 else 1 ,current_page + 5  if current_page + 5 <= max + 1  else max + 1) %}
+             {% if i == current_page %}
+                <a style="background-color: #11557C" href="{{ url_for('get_most_rated', next_page= i, sort_by = sort_by, direction = direction) }}">{{ i }} </a>
+            {% else %}
+                 <a href="{{ url_for('get_most_rated',  next_page= i , sort_by = sort_by, direction = direction) }}">{{ i }} </a>
+            {% endif %}
+        {% endfor %}
+        <a href="{{ url_for('get_most_rated',  next_page= current_page +1 if current_page < max else max , sort_by = sort_by, direction = direction) }}"><i class="fas fa-angle-double-right"></i></a>
+</div>
+</div>
+{% endblock %}
